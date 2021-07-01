@@ -1,13 +1,4 @@
 #!/usr/bin/env python
-"""
-Copyright (c) 2019, by the Authors: Amir H. Abdi
-This script is freely available under the MIT Public License.
-Please see the License file in the root for details.
-
-The following code snippet will convert the keras model files
-to the freezed .pb tensorflow weight file. The resultant TensorFlow model
-holds both the model architecture and its associated weights.
-"""
 
 import tensorflow as tf
 from tensorflow.python.framework import graph_util
@@ -63,7 +54,8 @@ def load_model(input_model_path, input_json_path=None, input_yaml_path=None):
         model = keras.models.load_model(input_model_path)
         return model
     except FileNotFoundError as err:
-        logging.error('Input mode file (%s) does not exist.', FLAGS.input_model)
+        logging.error('Input mode file (%s) does not exist.',
+                      FLAGS.input_model)
         raise err
     except ValueError as wrong_file_err:
         if input_json_path:
@@ -125,7 +117,8 @@ def main(args):
     else:
         K.set_image_data_format('channels_last')
 
-    model = load_model(FLAGS.input_model, FLAGS.input_model_json, FLAGS.input_model_yaml)
+    model = load_model(FLAGS.input_model,
+                       FLAGS.input_model_json, FLAGS.input_model_yaml)
 
     # TODO(amirabdi): Support networks with multiple inputs
     orig_output_node_names = [node.op.name for node in model.outputs]
